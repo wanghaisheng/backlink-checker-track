@@ -1,0 +1,142 @@
+---
+// FeatureGrid.astro
+import Section from '../../ui/Section.astro'
+import Row from '../../ui/Row.astro'
+import Col from '../../ui/Col.astro'
+import Card from '../../ui/cards/FeatureCard.astro'
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Define type for image module
+interface ImageModule {
+  default: ImageMetadata;
+}
+
+// Import all images using glob with type
+const images = import.meta.glob<ImageModule>('/src/assets/**/*.{jpeg,jpg,png,gif,svg}', {
+  eager: true
+});
+
+export interface Feature {
+  title: string;
+  subtitle: string;
+  image: string;
+  link?: string;
+  col: string;
+  row: string;
+}
+
+export interface FeatureTitle {
+  title: string;
+  subtitle: string;
+}
+
+interface Props {
+  sectionId?: string;
+  features: Feature[];
+  title?: FeatureTitle;
+  defaultImage?: string;
+  imageBasePath?: string;
+}
+
+const {
+  sectionId = 'features',
+  features = [],
+  title,
+  defaultImage = '/assets/default-image.svg',
+  imageBasePath = '/src/assets'
+} = Astro.props;
+
+// Function to get image path
+async function getImageData(imagePath: string) {
+  try {
+    const fullPath = `${imageBasePath}/${imagePath}`;
+    const matchingImage = Object.entries(images).find(([key]) => 
+      key.endsWith(imagePath)
+    );
+
+    if (matchingImage) {
+      const [, imageModule] = matchingImage as [string, ImageModule];
+      const optimizedImage = await getImage({
+        src: imageModule.default,
+        width: 800,
+        height: 800,
+      });
+      return optimizedImage.src;
+    }
+
+    console.warn(`Image not found: ${imagePath}, using default`);
+    return defaultImage;
+  } catch (error) {
+    console.error(`Error processing image ${imagePath}:`, error);
+    return defaultImage;
+  }
+}
+
+// Process features with images
+const featuresWithImages = await Promise.all(
+  features.map(async (feature: Feature) => ({
+    ...feature,
+    image: await getImageData(feature.image)
+  }))
+);
+
+// Group features by row
+const featuresByRow = featuresWithImages.reduce((acc, feature) => {
+  const row = feature.row;
+  if (!acc[row]) {
+    acc[row] = [];
+  }
+  acc[row].push(feature);
+  return acc;
+}, {} as Record<string, typeof featuresWithImages>);
+
+// Process rows and columns
+const rowsAndColumns = Object.entries(featuresByRow).map(([rowNum, rowFeatures]) => {
+  const columnsByRow = rowFeatures.reduce((acc, feature) => {
+    const col = feature.col;
+    if (!acc[col]) {
+      acc[col] = [];
+    }
+    acc[col].push(feature);
+    return acc;
+  }, {} as Record<string, typeof featuresWithImages>);
+
+  return {
+    rowNum,
+    columns: ['1', '2', '3'].map(col => columnsByRow[col] || [])
+  };
+});
+
+const sortedRows = rowsAndColumns.sort((a, b) => Number(a.rowNum) - Number(b.rowNum));
+---
+
+<Section id={sectionId}>
+  {title && (
+    <Row>
+      <Col span="12" align="center" classes="mb-12 max-w-4xl mx-auto">
+        <h2 class="text-pretty" set:html={title.title} />
+        <p class="pb-0 text-lg">{title.subtitle}</p>
+      </Col>
+    </Row>
+  )}
+  {sortedRows.map(({ columns }) => (
+    <Row classes="mb-6">
+      {columns.map((colFeatures, index) => (
+        <Col
+          span={index === 0 ? "4" : "4"}
+          classes={colFeatures.length > 1 ? "flex flex-col gap-6" : ""}
+        >
+          {colFeatures.map((feature) => (
+            <Card
+              title={feature.title}
+              subtitle={feature.subtitle}
+              image={feature.image}
+              link={feature.link || '/'}
+            />
+          ))}
+        </Col>
+      ))}
+    </Row>
+  ))}
+</Section>

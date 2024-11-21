@@ -1,0 +1,70 @@
+---
+// Basic Light Call To Action section
+// ------------
+// Description: A centered call to action section that contains: a title, text, an optional rating and a button.
+// Components
+// - Layout
+import Section from '../../ui/Section.astro'
+import Row from '../../ui/Row.astro'
+import Col from '../../ui/Col.astro'
+// - UI
+import CTA from '../../ui/CTA.astro'
+import Button from '../../ui/Button.astro'
+import Ratings from '../../ui/Rating.astro'
+// Content
+import CtaLightData from '../../../data/json-files/ctaLightData.json'
+
+// Interface for the CTA Light data structure
+interface CtaLightDataType {
+  title: string;
+  text: string;
+  button: {
+    text: string;
+    link: string;
+  };
+  rating?: {
+    stars: 0 | 1 | 2 | 3 | 4 | 5;
+    text?: string;
+  };
+}
+
+// Type assertion for the imported data
+const typedCtaLightData = CtaLightData as CtaLightDataType;
+
+// Check if rating exists and has valid stars
+const hasRating = typedCtaLightData.rating &&
+                 typeof typedCtaLightData.rating === 'object' &&
+                 'stars' in typedCtaLightData.rating &&
+                 typeof typedCtaLightData.rating.stars === 'number' &&
+                 typedCtaLightData.rating.stars >= 0 &&
+                 typedCtaLightData.rating.stars <= 5;
+---
+
+<Section>
+  <Row>
+    <Col span="1" />
+    <Col span="10">
+      <CTA
+        title={typedCtaLightData.title}
+        text={typedCtaLightData.text}
+        classes="!shadow-none"
+      >
+        {hasRating && (
+          <Ratings
+            rating={typedCtaLightData.rating!.stars}
+            text={typedCtaLightData.rating!.text}
+            classes="mb-4"
+          />
+        )}
+        <Button
+          size="lg"
+          style="primary"
+          link={typedCtaLightData.button.link}
+        >
+          {typedCtaLightData.button.text}
+        </Button>
+      </CTA>
+    </Col>
+    <Col span="1" />
+  </Row>
+</Section>

@@ -1,0 +1,29 @@
+{
+    "title": "Trusted by <strong>50,000+</strong> businesses worldwide",
+    "logos": [
+        {
+            "image": "logos/airtable-logo.svg",
+            "alt": "Airtable logo"
+        },
+        {
+            "image": "logos/asana-logo.svg",
+            "alt": "Asana logo"
+        },
+        {
+            "image": "logos/basecamp-logo.svg",
+            "alt": "Basecamp logo"
+        },
+        {
+            "image": "logos/evernote-logo.svg",
+            "alt": "Evernote logo"
+        },
+        {
+            "image": "logos/notion-logo.svg",
+            "alt": "Notion logo"
+        },
+        {
+            "image": "logos/slack-logo.svg",
+            "alt": "Slack logo"
+        }
+    ]
+} 

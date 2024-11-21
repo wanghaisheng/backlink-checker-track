@@ -1,0 +1,105 @@
+{
+    "main": {
+        "logo": {
+            "src": "/logo.svg",
+            "alt": "The tailwind astro theme",
+            "text": "CrazySprunki."
+        },
+        "items": [
+            { "name": "Home", "link": "/" },
+            { "name": "Leaderboard", "link": "/leaderboard" },
+            { "name": "Pricing", "link": "/pricing" },
+            { "name": "Support", "link": "/support" },
+
+            { "name": "Forum", "link": "/forum" },
+            {
+                "name": "Resources",
+                "link": "#",
+                "submenu": [
+                    { "name": "Blog", "link": "/blog" },
+                    { "name": "FAQ", "link": "/faq" },
+                    { "name": "Podcast", "link": "/podcast" },
+                    { "name": "chatroom", "link": "/chatroom" },
+
+                    { "name": "Game", "link": "/game" },
+                    { "name": "Sound", "link": "/sound" },
+                    { "name": "Video", "link": "/video" },
+                    { "name": "Character", "link": "/character" },
+                    { "name": "Tutorials", "link": "/tutorials" },
+                    
+                    { "name": "Changelog", "link": "/changelog" },
+
+                    { "name": "Timeline", "link": "/timeline" },
+                    { "name": "Glossary", "link": "/glossary" },
+                    { "name": "Contact", "link": "/contact" }
+
+                ]
+            }
+        ],
+        "actions": [
+            { "name": "Try it now", "link": "/#game", "style": "primary", "size": "lg" }
+        ]
+    },
+    "footer": {
+        "about": {
+            "title": "CrazySprunki.",
+            "aboutText": "Expertly made, responsive, accessible components in React and HTML ready to be used on your website or app. Just copy and paste them on your Tailwind CSS project.",
+            "logo": {
+                "src": "/logo.svg",
+                "alt": "CrazySprunki games",
+                "text": "CrazySprunki."
+            }
+        },
+        "columns": [
+            {
+                "category": "Product",
+                "subCategories": [
+                    { "subCategory": "Download", "subCategoryLink": "/features" },
+                    { "subCategory": "Characters", "subCategoryLink": "/pricing" },
+                    { "subCategory": "Blog", "subCategoryLink": "/blog" },
+                    { "subCategory": "Changelog", "subCategoryLink": "/changelog" }
+                ]
+            },
+            {
+
+                "category": "About us",
+                "subCategories": [
+                    { "subCategory": "Story", "subCategoryLink": "/about" },
+
+                    { "subCategory": "Privacy", "subCategoryLink": "/privacy" },
+                    { "subCategory": "Terms", "subCategoryLink": "/terms" }
+                ]
+
+            },
+            {
+                "category": "Links",
+                "subCategories": [
+                    { "subCategory": "Features", "subCategoryLink": "/features" },
+                    { "subCategory": "Features", "subCategoryLink": "/features" }
+                ]
+
+
+            }
+
+
+
+        ]
+    },
+    "social": [
+        {
+            "name": "facebook",
+            "link": "/",
+            "icon": "fb-icon"
+        },
+        {
+            "name": "twitter",
+            "link": "/",
+            "icon": "twitter-icon"
+        },
+        {
+            "name": "discord",
+            "link": "/",
+            "icon": "discord-icon"
+        }
+    ]
+} 

@@ -1,0 +1,60 @@
+---
+// Imports
+import { ViewTransitions } from 'astro:transitions'
+import GoogleAnalytics from '../../scripts/googleAnalytics.astro'
+import Clarity from '../../scripts/clarity.astro'
+
+import GoogleTagManagerHead from '../../scripts/googleTagManagerHead.astro'
+import GoogleSearchConsole from '../../scripts/googleSearchConsole.astro'
+// Partials
+import Seo from './partials/Seo.astro'
+// Data
+import type { Logo } from '../../../config/siteConfig'
+
+
+import { microsoftClarityMeasurementID } from '../../../config/clarity'
+
+import { googleAnalyticsMeasurementID } from '../../../config/analytics'
+import { googleTagManagerID } from '../../../config/analytics'
+
+// Props
+type Props = {
+	title?: string
+	description?: string
+	ogImage?: string
+	canonical?: boolean
+	noindex?: boolean
+	logo:Logo
+}
+// Page Metadata
+const {
+	title,
+	description,
+	ogImage ,
+	canonical ,
+	logo,
+	noindex
+} = Astro.props
+---
+
+<head>
+	{microsoftClarityMeasurementID && <Clarity/>}
+	{googleAnalyticsMeasurementID && <GoogleAnalytics />}
+
+	{googleTagManagerID && <GoogleTagManagerHead />}
+	<GoogleSearchConsole />
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<Seo
+		title={title}
+		description={description}
+		ogImage={ogImage}
+		canonical={canonical}
+		noindex={noindex}
+	/>
+	<link rel="icon" href={logo.src} type="image/svg+xml" />
+	<link rel="sitemap" href="/sitemap-index.xml" />
+	<meta name="generator" content={Astro.generator} />
+	<meta name="theme-color" content="#134e4a" />
+	<ViewTransitions fallback="swap" />
+</head>

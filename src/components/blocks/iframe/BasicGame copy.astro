@@ -1,0 +1,57 @@
+---
+// Basic Dark Testimonial section
+// ------------
+// Description: A centered testimonial section that contains: a quote, a caption and a cite in a dark section with a background image.
+
+// Components
+// - Layout
+import Section from '../../ui/Section.astro'
+import Row from '../../ui/Row.astro'
+import Col from '../../ui/Col.astro'
+// - UI
+import Gameframe from '../../ui/Gameframe.astro'
+import VerticalAd from '../ads/VerticalAd.astro'
+import HorizontalAd from '../ads/HorizontalAd.astro'
+// import { SocialShare } from "../share/social-share";
+
+// Props
+type Props = {
+	blockquote?: string
+	link?: string
+	cite?: string
+	bg?: any
+	bgPosition?: 'left' | 'right' | 'center'
+}
+const {
+	link ="https://elsolartesania.com",
+	bg,
+	bgPosition = 'center'
+} = Astro.props
+---
+
+<Section
+	id="gameframe"
+	bg={bg}
+	bgPosition={bgPosition}
+>
+	<Row>
+		<!-- <Col>	<VerticalAd classes="sticky top-4" /> -->
+		<!-- </Col> -->
+		<Col span="12">
+			<Gameframe
+				link={link}
+				classes="!leading-tight font-bold xl:text-5xl max-w-4xl mx-auto"
+			/>
+		</Col>
+
+		<!-- <Col> -->
+						<!-- <VerticalAd classes="sticky top-4" /> -->
+
+		<!-- </Col> -->
+	</Row>
+	<Row>
+		<!-- <HorizontalAd classes="bg-neutral-50 dark:bg-neutral-900/40 rounded-lg" /> -->
+
+	</Row>
+
+</Section>

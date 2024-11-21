@@ -1,0 +1,65 @@
+---
+// GoogleAd Component
+// ------------
+// Description: A flexible Google AdSense component that supports vertical and horizontal layouts
+
+import { configData } from '../../config/siteConfig'
+
+interface Props {
+    format?: 'auto' | 'fluid' | 'rectangle' | 'vertical' | 'horizontal'
+    layout?: 'vertical' | 'horizontal'
+    responsive?: boolean
+    classes?: string
+}
+
+const {
+    format = 'auto',
+    layout = 'horizontal',
+    responsive = true,
+    classes
+} = Astro.props
+
+// Define ad sizes with all possible formats
+const adSizes = {
+    horizontal: { width: '728', height: '90' },
+    vertical: { width: '160', height: '600' },
+    rectangle: { width: '300', height: '250' },
+    fluid: { width: 'fluid', height: 'fluid' }  // Add fluid format
+} as const
+
+// Type guard to check if format is a valid key of adSizes
+const isValidFormat = (format: string): format is keyof typeof adSizes => {
+    return format in adSizes
+}
+
+// Get the current size with proper type checking
+const currentSize = format === 'auto' 
+    ? adSizes[layout] 
+    : isValidFormat(format) 
+        ? adSizes[format] 
+        : adSizes.horizontal
+
+const { width, height } = currentSize
+---
+
+<div class:list={[
+    'google-ad',
+    responsive && 'responsive',
+    classes
+]}>
+    <!-- Ad content here -->
+    <slot />
+</div>
+
+<style>
+    .google-ad {
+        width: 100%;
+        margin: 0 auto;
+        text-align: center;
+    }
+    
+    .responsive {
+        display: block;
+        overflow: hidden;
+    }
+</style> 
